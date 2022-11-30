@@ -1,16 +1,21 @@
 package org.tdd.tddpractice.chap02;
 
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+
 @SpringBootTest
+@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 public class PasswordStrengthMeterTest {
     private final PasswordStrengthMeter meter = new PasswordStrengthMeter();
 
     private void assertStrength(String password, PasswordStrength expStr) {
         PasswordStrength result = meter.meter(password);
-        assert(result.equals(expStr));
+        assertThat(result).isEqualTo((expStr));
     }
 
     @Test
@@ -31,6 +36,22 @@ public class PasswordStrengthMeterTest {
     @DisplayName("숫자를 포함하지 않고 나머지 조건은 충족")
     void test3() {
         assertStrength("ab!ABqwert", PasswordStrength.NORMAL);
+    }
+
+    @Test
+    @DisplayName("유효하지 않은 암호")
+    void test4() {
+       assertStrength(null, PasswordStrength.INVALID);
+    }
+
+    @Test
+    void 빈_문자열() {
+        assertStrength("", PasswordStrength.INVALID);
+    }
+
+    @Test
+    void 대문자를_포함하지_않고_나머지_조건을_충족() {
+        assertStrength("ab12!@df", PasswordStrength.NORMAL);
     }
 
 }
