@@ -54,5 +54,20 @@ public class PasswordStrengthMeterTest {
         assertStrength("ab12!@df", PasswordStrength.NORMAL);
     }
 
+    @Test
+    void 길이가_8글자_이상인_조건만_충족() {
+        assertStrength("abcdefghi", PasswordStrength.WEAK);
+    }
+
+    @Test
+    void 숫자_포함_조건만_충족() {
+        assertStrength("12345", PasswordStrength.WEAK);
+    }
+
+    @Test
+    void 대문자_포함_조건만_충족() {
+        assertStrength("ABZEF", PasswordStrength.WEAK);
+    }
+
 }
 
