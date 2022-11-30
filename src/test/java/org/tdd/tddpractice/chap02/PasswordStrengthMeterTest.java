@@ -69,5 +69,10 @@ public class PasswordStrengthMeterTest {
         assertStrength("ABZEF", PasswordStrength.WEAK);
     }
 
+    @Test
+    void 아무_조건도_충족하지_않음() {
+        assertStrength("abc", PasswordStrength.WEAK);
+    }
+
 }
 
